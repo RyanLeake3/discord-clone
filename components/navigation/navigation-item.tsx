@@ -7,7 +7,7 @@ import Image from 'next/image';
 
 interface Props {
   id: string;
-  imageUrl: string;
+  imageUrl?: string | null;
   name: string;
 }
 
@@ -32,11 +32,18 @@ export function NavigationItem({ id, imageUrl, name }: Props) {
           />
           <div
             className={cn(
-              'relative group flex mx-3 h-[48px] w-[48px] rounded-[24px] group-hover:rounded-[16px] transition-all overflow-hidden',
+              'relative group flex mx-3 h-[48px] w-[48px] rounded-[24px] group-hover:rounded-[16px] transition-all overflow-hidden items-center justify-center',
               params?.serverId !== id && 'bg-primary/10 text-primary rounded-[16px]',
+              !imageUrl && 'bg-emerald-500',
             )}
           >
-            <Image fill src={imageUrl} alt="Channel" />
+            {imageUrl ? (
+              <Image fill src={imageUrl} alt="Channel" />
+            ) : (
+              <span className="text-white font-semibold text-lg">
+                {name.charAt(0).toUpperCase()}
+              </span>
+            )}
           </div>
         </button>
       </ActionTooltip>

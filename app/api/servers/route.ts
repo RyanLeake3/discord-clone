@@ -1,6 +1,5 @@
 import prisma from '@/lib/prisma';
 import { getCurrentProfile } from '@/lib/profiles/actions';
-import { MemberRole } from '@prisma/client';
 import { NextRequest, NextResponse } from 'next/server';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -17,7 +16,7 @@ export async function POST(req: NextRequest) {
       data: {
         profileId: profile.id,
         name,
-        imageUrl,
+        imageUrl: imageUrl || '',
         inviteCode: uuidv4(),
         channels: {
           create: [{ name: 'general', profileId: profile.id }],
@@ -26,7 +25,7 @@ export async function POST(req: NextRequest) {
           create: [
             {
               profileId: profile.id,
-              role: MemberRole.ADMIN,
+              role: 'ADMIN',
             },
           ],
         },
@@ -35,6 +34,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(server);
   } catch (error) {
+    console.error('[SERVERS_POST]', error);
     return new NextResponse('Internal Error', { status: 500 });
   }
 }

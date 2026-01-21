@@ -1,7 +1,6 @@
 'use client';
 
 import { ServerWithMembersWithProfiles } from '@/types';
-import { MemberRole } from '@prisma/client';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,13 +13,13 @@ import { useModal } from '@/hooks/use-modal.store';
 
 interface Props {
   server: ServerWithMembersWithProfiles;
-  role: MemberRole;
+  role: string;
 }
 
 export function ServerHeader({ server, role }: Props) {
   const { openModal } = useModal();
-  const isAdmin = role === MemberRole.ADMIN;
-  const isModerator = isAdmin || role === MemberRole.MODERATOR;
+  const isAdmin = role === 'ADMIN';
+  const isModerator = isAdmin || role === 'MODERATOR';
 
   return (
     <DropdownMenu>
